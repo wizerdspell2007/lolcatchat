@@ -3,7 +3,7 @@
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
-client = {}
+clients = {}
 addresses = {}
 
 
@@ -20,7 +20,7 @@ def accept_incoming_connections():
         print("%s:%s hs conectid 2 dis servr." % client_address)
         client.send(bytes("Greentins hooman!1"+"Plz tip ur nam and press enter", "utf8"))
         addresses[client] = client_address
-        Thread(target = handle_client, args = (client)).start()
+        Thread(target = handle_client, args = (client,)).start()
 
 
 def handle_client(client):
@@ -47,7 +47,7 @@ def broadcast(msg, prefix=""):
         sock.send(bytes(prefix, "utf8")+msg)
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     SERVER.listen(5)
     print("watin fr conection")
     ACCEPT_THREAD = Thread(target=accept_incoming_connections)
